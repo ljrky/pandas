@@ -10,8 +10,7 @@ DataFrame更新数据
 
 添加数据
 - 列数据, 添加一个F列的元素: df['F'] / df.F
-- 行数据, 使用loc添加
-
+- 行数据, 使用loc添加,或者使用append添加行数据
 """
 
 import pandas as pd
@@ -22,7 +21,7 @@ df = pd.DataFrame(data=np.arange(24).reshape(6, 4), index=dates, columns=['A', '
 
 print("df is \n", df)
 
-df.iloc[2,2] = 1111
+df.iloc[2, 2] = 1111
 df.loc["2013-01-01", "A"] = 2222
 
 print("df is \n", df)
@@ -34,9 +33,18 @@ print("df is \n", df)
 
 # 添加数据
 # 添加列，需要提供数据，行index
-df['E'] = pd.Series([23, 24, 25, 26, 27, 28],index=pd.date_range('20130101', periods=6))
+df['E'] = pd.Series([23, 24, 25, 26, 27, 28], index=pd.date_range('20130101', periods=6))
 print("df is \n", df)
 
-index = pd.datetime(year=2013,month=1,day=8)
+index = pd.datetime(year=2013, month=1, day=8)
 df.loc[index] = [123, 124, 125, 126, 127]
 print("df is \n", df)
+
+# 添加行数据
+df1 = pd.DataFrame(np.ones((3, 4)) * 0, columns=['a', 'b', 'c', 'd'])
+df2 = pd.DataFrame(np.ones((3, 4)) * 1, columns=['a', 'b', 'c', 'd'])
+df3 = pd.DataFrame(np.ones((3, 4)) * 1, columns=['a', 'b', 'c', 'd'])
+s1 = pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd'])
+
+res = df1.append([df2, df3], ignore_index=True)
+print(res)
